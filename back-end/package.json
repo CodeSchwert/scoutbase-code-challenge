@@ -1,0 +1,19 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "This task is for demonstrating your understanding of HTTP, GraphQL, Node.js and general API practices.",
+  "main": "src/server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CodeSchwert/scoutbase-code-challenge.git"
+  },
+  "author": "Nik Ho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeSchwert/scoutbase-code-challenge/issues"
+  },
+  "homepage": "https://github.com/CodeSchwert/scoutbase-code-challenge#readme"
+}
