@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import { IndexRouter } from './controllers/v0/index.router';
+
 (async () => {
   const app = express();
   
@@ -14,6 +16,8 @@ import cors from 'cors';
   app.get('/', async (req, res) => {
     res.send({ Scoutbase: 'Code Challenge' });
   });
+
+  app.use('/api/v0/', IndexRouter);
 
   const port = process.env.PORT || 5000;
   app.listen(port, () => {
