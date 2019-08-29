@@ -4,6 +4,8 @@ import cors from 'cors';
 
 import { IndexRouter } from './controllers/v0/index.router';
 
+import { languages, continents, countries } from 'countries-list';
+
 (async () => {
   const app = express();
   
