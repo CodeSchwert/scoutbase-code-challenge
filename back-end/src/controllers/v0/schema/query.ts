@@ -10,6 +10,7 @@ import {
   countryList,
   languageList,
   getContinent,
+  getCountry,
   getLanguage
 } from './resolvers/countries';
 
@@ -48,7 +49,15 @@ const RootQueryType: GraphQLObjectType = new GraphQLObjectType({
         return countryList;
       }
     },
-    // country: {},
+    country: {
+      type: CountryType,
+      args: {
+        countryCode: { type: GraphQLString }
+      },
+      resolve(parentValue, args) {
+        return getCountry(args.countryCode);
+      }
+    },
     languages: {
       type: new GraphQLList(LanguageType),
       resolve() {
