@@ -7,24 +7,27 @@ const countryList: Country[] = [];
 
 for (let countryCode of countryCodes) {
   // @ts-ignore
-  const country = countries[countryCode];
+  const countryProps = countries[countryCode];
 
-  const { 
-    code,
+  const {
     name,
     native,
     phone,
     continent,
     capital,
     currency,
-    // languages,
     emoji,
     emojiU 
-  } = country;
+  } = countryProps;
 
-  // const languageList = {}
-  // for (let langCode of country.languages) {
-  // }
+  const languagesList = [];
+
+  for (let lang of countryProps.languages) {
+    // @ts-ignore
+    const language = languages[lang];
+    language.code = lang;
+    languagesList.push(language);
+  }
 
   countryList.push({
     code: countryCode,
@@ -35,7 +38,7 @@ for (let countryCode of countryCodes) {
     continent: { code: continent, name: continents[continent] },
     capital,
     currency,
-    languages: [ { code: 'fo', name: 'Foo', native: 'Bar' } ],
+    languages: languagesList,
     emoji,
     emojiU
   });
