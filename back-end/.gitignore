@@ -93,3 +93,6 @@ typings/
 movie-data/archive/
 *.tsv
 out
+
+# environment variable files
+*.env
