@@ -90,4 +90,6 @@ typings/
 .dynamodb/
 
 # movies database raw data
-movie-data/
+movie-data/archive/
+*.tsv
+out
