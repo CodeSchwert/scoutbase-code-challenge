@@ -36,6 +36,7 @@
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.3",
     "lodash": "^4.17.15",
+    "papaparse": "^5.0.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "request": "^2.88.0",
