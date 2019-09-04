@@ -27,10 +27,10 @@ const imdbDataFiles = [
     url: 'https://datasets.imdbws.com/title.principals.tsv.gz',
     filename: 'title.principals.tsv'
   },
-  // {
-  //   url: 'https://datasets.imdbws.com/title.ratings.tsv.gz',
-  //   filename: 'title.ratings.tsv'
-  // }
+  {
+    url: 'https://datasets.imdbws.com/title.ratings.tsv.gz',
+    filename: 'title.ratings.tsv'
+  }
 ];
 
 module.exports = imdbDataFiles;

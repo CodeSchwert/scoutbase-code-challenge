@@ -1,12 +1,10 @@
 const Sequelize = require('sequelize');
 
-const { ARRAY, INTEGER, STRING } = Sequelize;
+const { INTEGER, STRING, TEXT } = Sequelize;
 
 module.exports = {
-  nconst: { type: STRING, allowNull: false },
-  primaryName: { type: STRING, allowNull: false },
-  birthYear: { type: INTEGER, allowNull: true },
-  deathYear: { type: INTEGER, allowNull: true },
-  primaryProfession: { type: ARRAY(STRING), allowNull: true },
-  knownForTitles: { type: ARRAY(STRING), allowNull: true }
+  nconst: { type: STRING, allowNull: false, primaryKey: true },
+  primaryName: { type: TEXT, allowNull: false },
+  birthday: { type: INTEGER, allowNull: true },
+  country: { type: TEXT, allowNull: true, defaultValue: null }
 };
