@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Papa = require('papaparse');
 const { Sequelize } = require('sequelize');
-const { titleBasic } = require('../src/controllers/v0/models/movies');
+const { titleBasic, titlesRatings } = require('../src/controllers/v0/models/movies');
 
 require('dotenv').config({ path: '../.db.env' });
 const {
@@ -41,8 +41,16 @@ const valueOrNull = (value) => {
     const TitleBasic = await sequelize.define(
       'titleBasics', titleBasic, { tableName: 'titleBasic' }
     );
+    const TitleRating = await sequelize.define(
+      'titlesRatings', titlesRatings, { tableName: 'titlesRatings' }
+    );
+
+    TitleBasic.hasOne(TitleRating, { foreignKey: 'tconst' });
+    TitleRating.belongsTo(TitleBasic, { foreignKey: 'tconst' });
+
+    await TitleRating.sync();
     await TitleBasic.sync({ force: true });
-    
+
     /**
      * bulk data arrays
      */
