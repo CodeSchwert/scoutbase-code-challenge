@@ -14,6 +14,11 @@ import {
   getLanguage
 } from './resolvers/countries';
 
+import MovieType from './types/movies/movie';
+import { 
+  getMovies
+} from './resolvers/movies';
+
 const RootQueryType: GraphQLObjectType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -72,9 +77,15 @@ const RootQueryType: GraphQLObjectType = new GraphQLObjectType({
       resolve(parentValue, args) {
         return getLanguage(args.languageCode);
       }
-    }
+    },
 
     /* movies */
+    movies: {
+      type: new GraphQLList(MovieType),
+      resolve() {
+        return getMovies();
+      }
+    }
   }
 });
 
