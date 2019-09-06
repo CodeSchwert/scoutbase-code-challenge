@@ -88,3 +88,9 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# movies database raw data
+movie-data/archive/
+
+# environment variable files
+*.env
