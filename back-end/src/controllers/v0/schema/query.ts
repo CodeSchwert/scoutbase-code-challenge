@@ -82,8 +82,9 @@ const RootQueryType: GraphQLObjectType = new GraphQLObjectType({
     /* movies */
     movies: {
       type: new GraphQLList(MovieType),
-      resolve() {
-        return getMovies();
+      resolve(parentValue, args, context) {
+        console.log('movies.context', context);
+        return getMovies(context);
       }
     }
   }
