@@ -2,7 +2,11 @@ import { GraphQLNonNull, GraphQLString } from 'graphql';
 import * as bcrypt from 'bcrypt';
 import UserType from '../../types/users/user';
 import { User } from '../../../../../server';
-import { generateJWT } from '../../../services/auth';
+import { 
+  generateJWT, 
+  validateUsername, 
+  validatePassword 
+} from '../../../services/auth';
 
 export default {
   type: UserType,
@@ -11,12 +15,27 @@ export default {
     password: { type: new GraphQLNonNull(GraphQLString) }
   },
   async resolve(parentValue: any, args: any, context: any) {
-    try {    
+    try {
+      // clear cookie on any result except valid login
+      context.res.clearCookie('scoutbase-code-challenge');
       const { username, password } = args;
 
-      /**
-       * TODO - check username and password for reasonable values
-       */
+      if (!validateUsername(username)) {
+        context.res.status(400);
+        return {
+          username: '',
+          error: true,
+          errorMsg: 'Incorrect username format.'
+        };
+      }
+      if (!validatePassword(password)) {
+        context.res.status(400);
+        return {
+          username: '',
+          error: true,
+          errorMsg: 'Password should be 6 to 254 characters long.'
+        };
+      }
 
       // @ts-ignore
       const user = await User.findOne({
@@ -28,7 +47,6 @@ export default {
         const passwordsMatch = await bcrypt.compare(password, hash);
 
         if (!passwordsMatch) {
-          context.res.clearCookie('scoutbase-code-challenge');
           context.res.status(401); // wrong password
 
           return { 
