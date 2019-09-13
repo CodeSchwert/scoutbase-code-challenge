@@ -32,13 +32,21 @@ export default {
         });
 
         const jwt = generateJWT(username);
-
         context.res.cookie('scoutbase-code-challenge', jwt, { httpOnly: true });
 
-        return { username };
+        return { 
+          username,
+          error: false,
+          errorMsg: ''
+        };
       } else {
+        context.res.clearCookie('scoutbase-code-challenge');
         context.res.status(418); // or use a more appropriate error code!!
-        return { username: '' };
+        return { 
+          username: '',
+          error: true,
+          errorMsg: ''
+        };
       }
     } catch (e) {
       console.error(e);

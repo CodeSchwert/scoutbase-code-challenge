@@ -25,24 +25,34 @@ export default {
 
       if (user) {
         const hash = user.password;
-        console.log('hash', hash)
         const passwordsMatch = await bcrypt.compare(password, hash);
-        console.log('passwordsMatch', passwordsMatch);
 
         if (!passwordsMatch) {
           context.res.clearCookie('scoutbase-code-challenge');
           context.res.status(401); // wrong password
-          
-          return { username: '' };
+
+          return { 
+            username: '',
+            error: true,
+            errorMsg: 'Incorrect password.'
+          };
         } else {
           const jwt = generateJWT(username);
           context.res.cookie('scoutbase-code-challenge', jwt, { httpOnly: true });
   
-          return { username };
+          return { 
+            username,
+            error: false,
+            errorMsg: ''
+          };
         }
       } else {
         context.res.status(401); // username not found
-        return { username: '' };
+        return { 
+          username: '',
+          error: true,
+          errorMsg: 'Username not found.'
+        };
       }
     } catch (e) {
       console.error(e);

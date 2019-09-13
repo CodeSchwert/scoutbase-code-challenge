@@ -1,14 +1,15 @@
 import { 
   GraphQLObjectType, 
   GraphQLString,
-  GraphQLInt,
-  GraphQLNullableType
+  GraphQLBoolean
 } from 'graphql';
 
 const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'UserType',
   fields: {
-    username: { type: GraphQLString }
+    username: { type: GraphQLString },
+    error: { type: GraphQLBoolean },
+    errorMsg: { type: GraphQLString }
   }
 });
 
