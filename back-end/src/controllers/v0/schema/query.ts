@@ -1,7 +1,4 @@
 import { GraphQLObjectType, GraphQLList, GraphQLString } from 'graphql';
-
-import HelloWorldType from './types/hello_world';
-
 import ContinentType from './types/countries/continent';
 import CountryType from './types/countries/country';
 import LanguageType from './types/countries/language';
@@ -22,16 +19,6 @@ import {
 const RootQueryType: GraphQLObjectType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-
-    helloWorld: {
-      type: HelloWorldType,
-      resolve() {
-        return {
-          hello: 'World!'
-        };
-      }
-    },
-
     /* countries-list */
     continents: {
       type: new GraphQLList(ContinentType),
@@ -78,7 +65,6 @@ const RootQueryType: GraphQLObjectType = new GraphQLObjectType({
         return getLanguage(args.languageCode);
       }
     },
-
     /* movies */
     movies: {
       type: new GraphQLList(MovieType),
