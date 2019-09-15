@@ -1,9 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { Sequelize } from 'sequelize';
 import * as dotenv from 'dotenv';
 import { IndexRouter } from './controllers/v0/index.router';
+
+import user from './controllers/v0/models/users/user';
 
 dotenv.config({ path: '.db.env' });
 const {
@@ -25,10 +28,16 @@ const sequelize = new Sequelize(uri, {
     }
 });
 
+const User = sequelize.define(
+  'user', user, { tableName: 'users' }
+);
+User.sync();
+
 (async () => {
   try {
     const app = express();
     app.use(bodyParser.json());
+    app.use(cookieParser());
   
     /* enable CORS across the app ... */
     app.use(cors());
@@ -50,4 +59,4 @@ const sequelize = new Sequelize(uri, {
   }
 })();
 
-export { sequelize };
+export { sequelize, User };

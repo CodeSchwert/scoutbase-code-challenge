@@ -10,9 +10,19 @@ import { Movie } from './index.d';
 
 function randomIntInc(low: number, high: number): number {
   return Math.floor(Math.random() * (high - low + 1) + low);
-}
+};
 
-export default async function() {
+function scoutBaseRating(): string {
+  let scoutRating: number = parseFloat(randomIntInc(5,9).toFixed(1));
+
+  if (scoutRating < 9) {
+    scoutRating = scoutRating + parseFloat(Math.random().toFixed(1));
+  }
+
+  return scoutRating.toFixed(1);
+};
+
+export default async function(context: any) {
   try {
     const TitleBasic = await sequelize.define(
       'titleBasics', titleBasic, { tableName: 'titleBasic' }
@@ -41,11 +51,15 @@ export default async function() {
     NameBasic.hasMany(TitlePrincipals, { sourceKey: 'nconst', foreignKey: 'nconst' });
 
     const movies: Movie[] = [];
+
+    // offset is used to return a random set of movies
     const offset = randomIntInc(0, 10000);
-    console.log('offset', offset);
+
+    console.log('scoutRating', scoutBaseRating());
+    console.log('context.res.headers', context.cookies['scoutbase-code-challenge']);
 
     // @ts-ignore
-    const titlesQuery = await TitleBasic.findAll({ 
+    const titlesQuery = await TitleBasic.findAll({
       where: { titleType: 'movie' },
       include: [
         {
@@ -69,12 +83,12 @@ export default async function() {
     });
 
     for (let movie of titlesQuery) {
-      console.log('movie:', JSON.stringify(movie, null, 2));
+      // console.log('movie:', JSON.stringify(movie, null, 2));
 
       const { primaryTitle, year, titlesRating, titlePrincipals } = movie;
 
-      const title = primaryTitle;
-      const rating = titlesRating ? titlesRating.averageRating : titlesRating;
+      const title: string = primaryTitle;
+      const rating: number = titlesRating ? titlesRating.averageRating : titlesRating;
 
       const actors = [];
       const directors = [];
@@ -99,13 +113,19 @@ export default async function() {
         }
       }
 
-      movies.push({
+      const populateMovie: any = {
         title,
         year,
         rating,
         actors,
         directors
-      });
+      };
+
+      if (context.cookies['scoutbase-code-challenge']) {
+        populateMovie['scoutbase_rating'] = scoutBaseRating();
+      }
+
+      movies.push(populateMovie);
     }
 
     return movies;
