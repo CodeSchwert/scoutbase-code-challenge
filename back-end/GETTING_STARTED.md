@@ -30,9 +30,13 @@ vim .db.env
 # PG_PASSWORD=password
 # PG_USER=user
 # PG_DB=scoutbase
-# PG_HOST=localhost
+# PG_HOST=database
 # PG_PORT=5432
+```
 
+**NOTE**: *the **PG_HOST** value needs to equal the docker-compose service name for the database.*
+
+```shell
 # Download (or use the provided movie datasets) and load IMDB movie datasets into SQL instance
 cd movie-data
 # (optional) BE WARNED: this will download very large movie datasets!! (millions of records per file)
@@ -51,9 +55,9 @@ docker-compose up server
 # Connect to the GraphQL interface (or query using GraphiQL)
 ```
 
-**GraphiQL should be available via web browser on http://localhost:5000/api/v0/graphql/graphiql**
-
 ## GraphQL Interface
+
+**GraphiQL should be available via web browser on http://localhost:5000/api/v0/graphql/graphiql**
 
 ## Rest Interface
 
