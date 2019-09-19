@@ -5,8 +5,8 @@ The back-end server uses datasets from the https://annexare.github.io/Countries/
 Steps to get the back-end server started for the first time:
 
 * Clone the Git repo.
-* Start the PostgreSQL Docker container.
 * Install dependencies.
+* Start the PostgreSQL Docker container.
 * Download (or use the provided movie datasets) and load IMDB movie datasets into SQL instance.
 * Start the back-end server:
   * As a local dev instance.
@@ -17,40 +17,34 @@ Steps to get the back-end server started for the first time:
 # Clone the Git repo
 git clone git@github.com:CodeSchwert/scoutbase-code-challenge.git
 
-# Start the PostgreSQL Docker container
-cd scoutbase-code-challenge
-docker-compose up database
-
 # Install dependencies & setup environment variables
-cd back-end
+cd scoutbase-code-challenge/back-end
 npm install
 touch .db.env
 vim .db.env
 # add the following variables and appropriate values for the Postgres Server
-# PG_PASSWORD=password
-# PG_USER=user
-# PG_DB=scoutbase
-# PG_HOST=database
-# PG_PORT=5432
+# POSTGRES_PASSWORD=password
+# POSTGRES_USER=superuser
+# POSTGRES_DB=scoutbase
+# POSTGRES_HOST=database
+# POSTGRES_PORT=5432
+
+# Start the PostgreSQL Docker container
+cd ..
+docker-compose up -d database
 ```
 
-**NOTE**: *the **PG_HOST** value needs to equal the docker-compose service name for the database.*
+**NOTE**: *the **POSTGRES_HOST** value needs to equal the docker-compose service name for the database.*
 
 ```shell
 # Download (or use the provided movie datasets) and load IMDB movie datasets into SQL instance
-cd movie-data
-# (optional) BE WARNED: this will download very large movie datasets!! (millions of records per file)
-node dawnload-movie-data
-# (alternatively, just used the provided smaller datasets)
-./process-data.sh
+docker-compose up -d server
 
-# Start the back-end server
-# (As a local dev instance)
-cd ..
-npm run dev
-# (Or Docker container)
-cd ../..
-docker-compose up server
+# (optional downlad) BE WARNED: this will download large movie datasets!! (millions of records per file)
+docker-compose exec -w /scoutbase/code-challenge/movie-data server node ./download-movie-data
+
+# (alternatively, just used the provided smaller datasets)
+docker-compose exec -w /scoutbase/code-challenge/movie-data server sh ./process-data.sh
 
 # Connect to the GraphQL interface (or query using GraphiQL)
 ```
@@ -62,3 +56,12 @@ docker-compose up server
 ## Rest Interface
 
 ## Movies Database
+
+## Clean Up
+
+To clean up the stack of Docker containers and networks:
+
+```shell
+cd scoutbase-code-challenge/
+docker-compose down
+```

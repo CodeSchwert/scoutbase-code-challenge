@@ -5,14 +5,14 @@ const { titlesRatings } = require('../src/controllers/v0/models/movies');
 
 require('dotenv').config({ path: '../.db.env' });
 const {
-  PG_PASSWORD,
-  PG_USER,
-  PG_DB,
-  PG_HOST,
-  PG_PORT
+  POSTGRES_PASSWORD,
+  POSTGRES_USER,
+  POSTGRES_DB,
+  POSTGRES_HOST,
+  POSTGRES_PORT
 } = process.env;
 
-const BULK_LOAD_COUNT = 250000;
+const BULK_LOAD_COUNT = 100000;
 
 /**
  * helper functions
@@ -26,7 +26,7 @@ const valueOrNull = (value) => {
  */
 (async () => {
   try {
-    const uri = `postgres://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DB}`;
+    const uri = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`;
     const sequelize = new Sequelize(uri, { 
       logging: false,
       pool: {
