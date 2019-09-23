@@ -55,7 +55,65 @@ docker-compose exec -w /scoutbase/code-challenge/movie-data server sh ./process-
 
 ## Rest Interface
 
+The countries dataset can be accessed via a rest interface as well as the GraphQL interface.
+
+The endpoints are:
+
+* http://localhost:5000/api/v0/graphql/continents
+  * ```shell
+    # returns
+    {
+      "continents": {
+        "AF": "Africa",
+        "AN": "Antarctica",
+        "AS": "Asia",
+        "EU": "Europe",
+        "NA": "North America",
+        "OC": "Oceania",
+        "SA": "South America"
+      }
+    }
+    ```
+* http://localhost:5000/api/v0/graphql/countries
+  * ```shell
+    # returns
+    {
+      "countries": {
+        "AD": {
+          "name": "Andorra",
+          "native": "Andorra",
+          "phone": "376",
+          "continent": "EU",
+          "capital": "Andorra la Vella",
+          "currency": "EUR",
+          "languages": [
+            "ca"
+          ],
+          "emoji": "🇦🇩",
+          "emojiU": "U+1F1E6 U+1F1E9"
+        },
+        "AE": { ... },
+      }
+    }
+    ```
+* http://localhost:5000/api/v0/graphql/languages
+  * ```shell
+    {
+      "languages": {
+        "af": {
+          "name": "Afrikaans",
+          "native": "Afrikaans",
+          "code": "af"
+        },
+        "am": { ... },
+        "ar": { ... },
+      }
+    }
+    ```
+
 ## Movies Database
+
+The movie datasets in `/back-end/movie-data/` have been truncated from the original sizes to save time loading the data when setting up the stack. The original datasets have a few millions records PER dataset, these truncated datasets have roughly 500,000 records per set, and less records once loaded into the database as only movie related records are loaded (non-movie records are ignored).
 
 ## Clean Up
 
